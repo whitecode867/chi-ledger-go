@@ -1,4 +1,4 @@
-package database
+package mock
 
 import (
 	"chi-domain-go/helpers"
