@@ -19,7 +19,7 @@ import (
 
 var emptyURLParams = []string{}
 
-func usecaseWrapper(businessLogicFunc standard.BusinessLogic, urlParams []string) http.HandlerFunc {
+func UsecaseWrapper(businessLogicFunc standard.BusinessLogic, urlParams []string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var response standard.Response
 		defer func() {
@@ -60,27 +60,27 @@ func apiV1(dbSession *database.Session) func(chi.Router) {
 
 		router.With(
 			validator.DomainLayerHeaderValidator(constants.UserIDHeaderName),
-		).Get("/todos", usecaseWrapper(todosUseCase.GetList, emptyURLParams))
+		).Get("/todos", UsecaseWrapper(todosUseCase.GetList, emptyURLParams))
 
 		router.With(
 			validator.DomainLayerHeaderValidator(constants.UserIDHeaderName),
 			validator.AddTodoItemValidator,
-		).Post("/todos", usecaseWrapper(todosUseCase.Add, emptyURLParams))
+		).Post("/todos", UsecaseWrapper(todosUseCase.Add, emptyURLParams))
 
 		router.With(
 			validator.DomainLayerHeaderValidator(constants.UserIDHeaderName),
 			validator.UpdateTodoItemValidator,
-		).Put(fmt.Sprintf("/todos/{%s}", constants.TodoIDParamName), usecaseWrapper(todosUseCase.Update, []string{constants.TodoIDParamName}))
+		).Put(fmt.Sprintf("/todos/{%s}", constants.TodoIDParamName), UsecaseWrapper(todosUseCase.Update, []string{constants.TodoIDParamName}))
 
 		router.With(
 			validator.DomainLayerHeaderValidator(constants.UserIDHeaderName),
-		).Delete(fmt.Sprintf("/todos/{%s}", constants.TodoIDParamName), usecaseWrapper(todosUseCase.Delete, []string{constants.TodoIDParamName}))
+		).Delete(fmt.Sprintf("/todos/{%s}", constants.TodoIDParamName), UsecaseWrapper(todosUseCase.Delete, []string{constants.TodoIDParamName}))
 	}
 }
 
 func mappingUseCaseToAPI(router *chi.Mux, dbSession *database.Session) *chi.Mux {
 	pingUseCase := ping.NewPingUseCase()
-	router.Get("/ping", usecaseWrapper(pingUseCase.Ping, emptyURLParams))
+	router.Get("/ping", UsecaseWrapper(pingUseCase.Ping, emptyURLParams))
 
 	router.Route("/bank/api/v1", apiV1(dbSession))
 	return router

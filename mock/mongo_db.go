@@ -5,14 +5,14 @@ import (
 )
 
 type MockMongoDBRepository struct {
-	SelectOutput interface{}
+	SelectResult interface{}
 	SelectError  error
 	InsertError  error
 	UpdateError  error
 }
 
 func (mock MockMongoDBRepository) Select(selector interface{}, output interface{}) error {
-	helpers.MergeData(mock.SelectOutput, output)
+	helpers.MergeData(mock.SelectResult, output)
 	return mock.SelectError
 }
 
