@@ -51,12 +51,13 @@ func initialiseMiddleware(r *chi.Mux) {
 
 func apiV1(dbSession *database.Session) func(chi.Router) {
 	return func(router chi.Router) {
+		configs := conf.Configs
 		getTodosConfigPath := helpers.MakeGetConfigPathFunc("business.todos")
 		todosUseCase := todos.NewTodosUseCase(todos.TodosRepositories{
 			TodosMongoDBRepository: database.MongoDBRepository{
 				Session:        dbSession.MongoDBSession,
-				DatabaseName:   conf.Configs.GetString(getTodosConfigPath("database.name")),
-				CollectionName: conf.Configs.GetString(getTodosConfigPath("database.collection")),
+				DatabaseName:   configs.GetString(getTodosConfigPath("database.name")),
+				CollectionName: configs.GetString(getTodosConfigPath("database.collection")),
 			},
 		})
 
