@@ -1,7 +1,7 @@
 package helpers
 
 import (
-	"chi-domain-go/models/utils"
+	"chi-ledger-go/models/utils"
 	"time"
 )
 

@@ -1,8 +1,8 @@
 package todos
 
 import (
-	"chi-domain-go/models"
-	"chi-domain-go/standard"
+	"chi-ledger-go/models"
+	"chi-ledger-go/standard"
 )
 
 type Todos interface {

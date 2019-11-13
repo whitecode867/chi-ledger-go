@@ -1,7 +1,7 @@
 package mock
 
 import (
-	"chi-domain-go/helpers"
+	"chi-ledger-go/helpers"
 )
 
 type MockMongoDBRepository struct {

@@ -1,6 +1,6 @@
 package models
 
-import "chi-domain-go/models/utils"
+import "chi-ledger-go/models/utils"
 
 // ======== SUCCESS RESPONSE ========
 

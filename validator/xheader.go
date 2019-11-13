@@ -1,9 +1,9 @@
 package validator
 
 import (
-	"chi-domain-go/constants"
-	"chi-domain-go/models"
-	"chi-domain-go/validator/rules"
+	"chi-ledger-go/constants"
+	"chi-ledger-go/models"
+	"chi-ledger-go/validator/rules"
 	"fmt"
 	"net/http"
 )
@@ -56,36 +56,3 @@ func DomainLayerHeaderValidator(additionalHeader ...string) func(http.Handler) h
 		return http.HandlerFunc(fn)
 	}
 }
-
-// func XHeaderValidator(next http.Handler) http.Handler {
-// 	fn := func(w http.ResponseWriter, r *http.Request) {
-// 		header := models.HTTPHeader(r.Header).ExtractHTTPHeader()
-
-// 		hValidator := rules.NewValidator(header)
-// 		hValidator.Add("x-app-id",
-// 			rules.Required,
-// 			rules.NotEmpty,
-// 			rules.ShouldBeString,
-// 		)
-
-// 		hValidator.Add("x-correlation-id",
-// 			rules.Required,
-// 			rules.NotEmpty,
-// 			rules.ShouldBeString,
-// 		)
-
-// 		hValidator.Add("x-activity",
-// 			rules.Required,
-// 			rules.NotEmpty,
-// 			rules.ShouldBeString,
-// 		)
-
-// 		fieldValidationHandler(fieldValidationHandlerParams{
-// 			FailList:    hValidator.Validate(),
-// 			HTTPHandler: next,
-// 			HTTPRequest: r,
-// 			HTTPWriter:  w,
-// 		})
-// 	}
-// 	return http.HandlerFunc(fn)
-// }

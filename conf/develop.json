@@ -1,0 +1,23 @@
+{
+  "service": {
+    "name": "ledger",
+    "port": 3000
+  },
+  "database": {
+    "mongodb": {
+      "username": "",
+      "password": "",
+      "url": "localhost",
+      "port": "27017"
+    }
+  },
+  "business": {
+    "todos": {
+      "database": {
+        "name": "poc",
+        "collection": "todos"
+      }
+    }
+  },
+  "external_service": {}
+}

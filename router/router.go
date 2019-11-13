@@ -1,14 +1,15 @@
 package router
 
 import (
-	"chi-domain-go/constants"
-	"chi-domain-go/database"
-	"chi-domain-go/helpers"
-	"chi-domain-go/models"
-	"chi-domain-go/standard"
-	"chi-domain-go/usecases/ping"
-	"chi-domain-go/usecases/todos"
-	"chi-domain-go/validator"
+	"chi-ledger-go/conf"
+	"chi-ledger-go/constants"
+	"chi-ledger-go/database"
+	"chi-ledger-go/helpers"
+	"chi-ledger-go/models"
+	"chi-ledger-go/standard"
+	"chi-ledger-go/usecases/ping"
+	"chi-ledger-go/usecases/todos"
+	"chi-ledger-go/validator"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -50,11 +51,12 @@ func initialiseMiddleware(r *chi.Mux) {
 
 func apiV1(dbSession *database.Session) func(chi.Router) {
 	return func(router chi.Router) {
+		getTodosConfigPath := helpers.MakeGetConfigPathFunc("business.todos")
 		todosUseCase := todos.NewTodosUseCase(todos.TodosRepositories{
 			TodosMongoDBRepository: database.MongoDBRepository{
 				Session:        dbSession.MongoDBSession,
-				DatabaseName:   "poc",
-				CollectionName: "todos",
+				DatabaseName:   conf.Configs.GetString(getTodosConfigPath("database.name")),
+				CollectionName: conf.Configs.GetString(getTodosConfigPath("database.collection")),
 			},
 		})
 

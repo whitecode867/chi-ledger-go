@@ -1,8 +1,8 @@
 package validator
 
 import (
-	"chi-domain-go/helpers"
-	"chi-domain-go/validator/rules"
+	"chi-ledger-go/helpers"
+	"chi-ledger-go/validator/rules"
 	"net/http"
 )
 

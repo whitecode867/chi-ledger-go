@@ -1,9 +1,9 @@
 package helpers
 
 import (
-	"chi-domain-go/constants"
-	"chi-domain-go/models"
-	"chi-domain-go/standard"
+	"chi-ledger-go/constants"
+	"chi-ledger-go/models"
+	"chi-ledger-go/standard"
 	"net/http"
 )
 

@@ -1,6 +1,6 @@
 package ledgers
 
-import "chi-domain-go/standard"
+import "chi-ledger-go/standard"
 
 type Ledgers interface {
 }

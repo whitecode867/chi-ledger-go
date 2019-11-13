@@ -1,7 +1,7 @@
 package rules
 
 import (
-	"chi-domain-go/helpers"
+	"chi-ledger-go/helpers"
 	"strings"
 )
 

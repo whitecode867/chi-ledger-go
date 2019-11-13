@@ -1,9 +1,10 @@
 package main
 
 import (
-	"chi-domain-go/database"
-	"chi-domain-go/models"
-	"chi-domain-go/router"
+	"chi-ledger-go/conf"
+	"chi-ledger-go/database"
+	"chi-ledger-go/models"
+	"chi-ledger-go/router"
 	"context"
 	"fmt"
 	"log"
@@ -17,17 +18,26 @@ import (
 	"gopkg.in/gookit/color.v1"
 )
 
-func initialiseMongoDB() (*mgo.Session, error) {
-	urlFromJSON := "mongodb://localhost:27017"
-	return mgo.Dial(urlFromJSON)
+func finaliseMongoDBURL() string {
+	configs := conf.Configs
+	url := configs.GetString("database.mongodb.url")
+	port := configs.GetString("database.mongodb.port")
+	username := configs.GetString("database.mongodb.username")
+	password := configs.GetString("database.mongodb.password")
+
+	if len(username) != 0 && len(password) != 0 {
+		return fmt.Sprintf("mongodb://%s:%s@%s:%s", username, password, url, port)
+	}
+	return fmt.Sprintf("mongodb://%s:%s", url, port)
 }
 
-func onCloseHandler(sigs chan os.Signal, done chan bool, dbSession database.Session) {
-
+func initialiseMongoDB() (*mgo.Session, error) {
+	return mgo.Dial(finaliseMongoDBURL())
 }
 
 func main() {
-	// All initialise here
+	// All initialisaion here
+	conf.InitialiseConfigs()
 	mongoDBSession, err := initialiseMongoDB()
 	if err != nil {
 		panic(err)
@@ -40,7 +50,7 @@ func main() {
 	done := make(chan os.Signal, 1)
 	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
-	port := models.ServerPort("3000").String()
+	port := models.ServerPort(conf.Configs.GetString("service.port")).String()
 	srv := &http.Server{
 		Addr:    port,
 		Handler: routerHandler,
@@ -53,7 +63,7 @@ func main() {
 	}()
 
 	log.Println(
-		color.FgLightGreen.Render("Server Started"),
+		color.FgLightGreen.Render(fmt.Sprintf("Server %s Started", conf.Configs.GetString("service.name"))),
 		"Listening to port",
 		color.FgLightYellow.Render(port),
 	)
@@ -68,7 +78,7 @@ func main() {
 	// extra handling here
 	defer func() {
 		cancel()
-		// dbSession.CloseAllDatabases()
+		dbSession.CloseAllDatabases()
 	}()
 
 	if err := srv.Shutdown(ctx); err != nil {
@@ -76,8 +86,4 @@ func main() {
 	}
 
 	log.Print(color.FgLightBlue.Render("Server Exited Properly"))
-
-	// fmt.Printf("%s\n", color.FgGreen.Render("Listening to port ", port))
-	// http.ListenAndServe(port.String(), r)
-
 }

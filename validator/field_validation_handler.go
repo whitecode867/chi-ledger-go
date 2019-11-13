@@ -1,10 +1,10 @@
 package validator
 
 import (
-	"chi-domain-go/constants"
-	"chi-domain-go/helpers"
-	"chi-domain-go/models"
-	"chi-domain-go/validator/rules"
+	"chi-ledger-go/constants"
+	"chi-ledger-go/helpers"
+	"chi-ledger-go/models"
+	"chi-ledger-go/validator/rules"
 	"net/http"
 )
 
